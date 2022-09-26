@@ -1,18 +1,26 @@
 const html = require('html-template-tag')
 
-module.exports = (games, player) => html `<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game ID</title>
-</head>
-<body>
-<p>Game ${game.id}</p>
-<p>Player: ${player.userName}</p>
-<p>Result: ${game.result}</p>
 
+module.exports = (player, games) => html`<!DOCTYPE html>
+  <html>
+  <head>
+    <title>${player.userName}</title>
+    <link rel="stylesheet" href="/style.css" />
     
-</body>
-</html>`
+  </head>
+  <body>
+    <div>
+      <header>${player.userName}'s games:</header>
+
+
+      ${games.map(game => html`
+        <div class='news-item'>
+          <p>
+            <span>Game ${game.id}, Result: ${game.result}</span>
+          </p>
+        
+        </div>`
+      )}
+    </div>
+  </body>
+  </html>`;

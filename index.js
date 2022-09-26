@@ -1,9 +1,29 @@
 const express = require('express')
 const app = express()
+let router = require('express').Router()
 const game = require('./htmlRoutes/game.js')
-const player = require('./htmlRoutes/player.js')
+const playerHtml = require('./htmlRoutes/player.js')
 const allPlayers = require('./htmlRoutes/allPlayers.js')
 const {db, Player, Game} = require('./db')
+
+
+
+router.post('/post', (req, res, next)=>
+   res.send(`<body>
+   <div class="news-list">
+     
+     <form method="post" action="/posts">
+       <label for="name">Author</label>
+       <input type="text" name="name" />
+       <label for="title">Title</label>
+       <input type="text" name="title" />
+       <textarea name="content"></textarea>
+       <button type="submit">Submit</button>
+     </form>
+   </div>
+ </body>`)
+
+)
 
 app.get('/game/:gameId', async(req, res, next) => {
     try{
@@ -48,7 +68,7 @@ app.get('/player/:playerId', async(req, res, next) => {
        
         
 
-        res.send(``)
+        res.send(playerHtml(player, games))
 
 
     }

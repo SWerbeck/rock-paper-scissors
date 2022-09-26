@@ -10,7 +10,7 @@ module.exports = (game, player) => html `<!DOCTYPE html>
 </head>
 <body>
 <p>Game ${game.id}</p>
-<p>Player: ${player.userName}</p>
+<p>Player: <a href ="http://localhost:3000/player/${player.id}">${player.userName}</a></p>
 <p>Result: ${game.result}</p>
 
     
