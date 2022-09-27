@@ -4,42 +4,13 @@ let router = require('express').Router()
 const game = require('./htmlRoutes/game.js')
 const playerHtml = require('./htmlRoutes/player.js')
 const allPlayers = require('./htmlRoutes/allPlayers.js')
-const {db, Player, Game} = require('./db')
+const {db, Player, Game,} = require('./db')
+
+app.use(express.urlencoded({extended: false}))
 
 
 
-router.post('/post', (req, res, next)=>
-   res.send(`<body>
-   <div class="news-list">
-     
-     <form method="post" action="/posts">
-       <label for="name">Author</label>
-       <input type="text" name="name" />
-       <label for="title">Title</label>
-       <input type="text" name="title" />
-       <textarea name="content"></textarea>
-       <button type="submit">Submit</button>
-     </form>
-   </div>
- </body>`)
 
-)
-
-app.get('/game/:gameId', async(req, res, next) => {
-    try{
-         
-        const gameId = +req.params.gameId
-        const games = await Game.findByPk(gameId)
-        const playerId = games.userId
-        const player = await Player.findByPk(playerId)
-        res.send(game(games, player))
-
-
-    }
-    catch(err){
-        next(err)
-    }
-})
 
     app.get('/player', async(req, res, next) => {
         try{
@@ -69,6 +40,27 @@ app.get('/player/:playerId', async(req, res, next) => {
         
 
         res.send(playerHtml(player, games))
+
+
+    }
+    catch(err){
+        next(err)
+    }
+
+
+})
+
+app.put('/player/:playerId', async(req, res, next) => {
+    try{
+         
+     const player = await Player.findByPk(+req.params.playerId)
+
+     
+         
+     const newPlayer = await player.update(req.body)
+      
+        
+        res.send(newPlayer)
 
 
     }
